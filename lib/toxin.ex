@@ -1,18 +1,13 @@
 defmodule Toxin do
-  @moduledoc """
-  Documentation for Toxin.
-  """
+  use Application
 
-  @doc """
-  Hello world.
+  def start() do
+    children = [
+      {Task.Supervisor, name: Server.TaskSupervisor},
+      Supervisor.child_spec({Task, fn -> Toxin.Server.start(4040) end}, restart: :permanent),
+    ]
 
-  ## Examples
-
-      iex> Toxin.hello()
-      :world
-
-  """
-  def hello do
-    :world
+    opts = [strategy: :one_for_one, name: Toxin.Supervisor]
+    Supervisor.start_link(children, opts)
   end
 end

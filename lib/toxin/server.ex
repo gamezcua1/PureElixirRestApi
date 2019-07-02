@@ -33,14 +33,14 @@ defmodule Toxin.Server do
 
     client
     |> read_line
+    |> Toxin.Request.parse
     |> write_line(client)
   end
 
   defp read_line(client) do
     case :gen_tcp.recv(client, 0) do
       {:ok, data} ->
-        Logger.debug data
-        {:ok, Toxin.Response.get}
+        {:ok, data}
       _ -> :error
     end
   end

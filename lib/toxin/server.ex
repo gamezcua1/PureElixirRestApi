@@ -30,10 +30,11 @@ defmodule Toxin.Server do
   end
 
   defp serve({:ok, client}) do
-
     client
     |> read_line
     |> Toxin.Request.parse
+    |> Toxin.Handler.handle
+    |> Toxin.Response.parse
     |> write_line(client)
   end
 
@@ -50,7 +51,7 @@ defmodule Toxin.Server do
     Process.exit self(), :kill
   end
 
-  defp write_line({:ok, data}, client) do
+  defp write_line(data, client) do
     IO.puts data
     :gen_tcp.send(client, data)
     :gen_tcp.close(client)

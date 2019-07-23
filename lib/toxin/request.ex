@@ -43,7 +43,7 @@ defmodule Toxin.Request do
     URI.decode_query(headers)
   end
 
-  defp parse_body([req, data]) when data != "", do: Map.put(req, "body", Jason.decode!(data))
+  defp parse_body([req, data]) when data != "", do: Map.put(req, "body", Poison.decode!(data))
   defp parse_body([req, _data]), do: req
 
 end

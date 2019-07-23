@@ -1,7 +1,6 @@
 defmodule Toxin.Handler do
   def handle(req) do
     {_, list} = :application.get_key(:toxin, :modules)
-    IO.inspect list
     
     list =
       list
@@ -31,9 +30,9 @@ defmodule Toxin.Handler do
     try do
       apply(module, func, [req["method"], req["path"], req])
     rescue
-      _ -> find_path_functions(rest_funcs, req)
+      _ -> find_path_functions(module, rest_funcs, req)
     end
   end
 
-  def find_path_functions([], _), do: :not_found
+  def find_path_functions(_, [], _), do: :not_found
 end

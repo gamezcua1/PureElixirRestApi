@@ -3,7 +3,8 @@ defmodule Toxin do
 
   def start() do
     :mnesia.start()
-    :mnesia.restore('data')
+    :mnesia.restore('data', [])
+    create_db()
     backing_up()
 
     children = [
@@ -26,6 +27,6 @@ defmodule Toxin do
   end
 
   def backing_up() do
-    :timer.apply_interval(60000, :mnesia, :backup, ['data'])
+    :timer.apply_interval(10000, :mnesia, :backup, ['data'])
   end
 end

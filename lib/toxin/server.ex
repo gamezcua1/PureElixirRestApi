@@ -21,7 +21,7 @@ defmodule Toxin.Server do
   defp loop_server(socket) do
     {:ok, client} = :gen_tcp.accept(socket)
     {:ok, pid} = Task.Supervisor.start_child(Server.TaskSupervisor, fn -> serve({:ok, client}) end)
-    :ok = :gen_tcp.controlling_process(client, pid)
+    ok = :gen_tcp.controlling_process(client, pid)
     loop_server(socket)
   end
 
@@ -52,7 +52,6 @@ defmodule Toxin.Server do
   end
 
   defp write_line(data, client) do
-    IO.puts data
     :gen_tcp.send(client, data)
     :gen_tcp.close(client)
   end

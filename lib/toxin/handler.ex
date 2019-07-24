@@ -1,5 +1,6 @@
 defmodule Toxin.Handler do
   def handle(req) do
+    IO.puts req["path"]
     {_, list} = :application.get_key(:toxin, :modules)
     
     list =
